@@ -1,4 +1,4 @@
-# A Unified Hard-Constraint Framework for<br>Solving Geometrically Complex PDEs
+# A Unified Hard-Constraint Framework for Solving Geometrically Complex PDEs
 
 This repository is the official implementation of *A Unified Hard-Constraint Framework for Solving Geometrically Complex PDEs*. 
 
