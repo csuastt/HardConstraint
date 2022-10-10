@@ -132,6 +132,5 @@ dmypy.json
 .vscode/
 
 # some folders
-data/
 model/
 outs/
