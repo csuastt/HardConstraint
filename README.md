@@ -17,21 +17,21 @@ The following is a description of the contents of the directory
 ```bash
 code/
 │  .gitignore
-│  README.md				# description of this repository
+│  README.md              # description of this repository
 │  requirements.txt
 │
-├─data						# data used in this paper
-│      case1_pack.txt		# ground truth for "Simulation of a 2D battery pack (Heat Equation)"
-│      case2_airfoil.txt	# ground truth for "Simulation of an Airfoil (Navier-Stokes Equations)"
-│      w1015.dat			# achor points of the airfoil
+├─data                    # data used in this paper
+│      case1_pack.txt     # ground truth for "Simulation of a 2D battery pack (Heat Equation)"
+│      case2_airfoil.txt  # ground truth for "Simulation of an Airfoil (Navier-Stokes Equations)"
+│      w1015.dat          # achor points of the airfoil
 │
-├─model/					# saved model weights (empty)
-├─outs/						# outputs (empty)
+├─model/                  # saved model weights (empty)
+├─outs/                   # outputs (empty)
 └─src
-    │  case1.py				# scripts for each experiment 
+    │  case1.py           # scripts for each experiment 
     │  ...
     │
-    ├─configs				# hyper-parameters for each experiment 
+    ├─configs             # hyper-parameters for each experiment 
     │  │
     │  ├─case1
     │  │      ...
@@ -42,12 +42,12 @@ code/
     │  └─case3
     │          ...
     │
-    ├─FBPINN/				# implementations of each model 
+    ├─FBPINN/             # implementations of each model 
     ├─HC/
     ├─PFNN/
     ├─xPINN/
     │
-    └─utils/				# some utils
+    └─utils/              # some utils
 ```
 
 ## Training & Evaluation
