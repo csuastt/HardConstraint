@@ -1,24 +1,21 @@
-# A Unified Hard-Constraint Framework for Solving Geometrically Complex PDEs
+# Unified Hard-Constraint Framework
 
-This repository is the official implementation of *A Unified Hard-Constraint Framework for Solving Geometrically Complex PDEs*. 
+This repository is the official implementation of the NeurIPS 2022 paper: [A Unified Hard-Constraint Framework for Solving Geometrically Complex PDEs](https://arxiv.org/abs/2210.03526).
 
-## Requirements
+## Introduction
 
-To install requirements:
+Physics-informed neural networks are suffering from the unbalanced competition in their loss function: $\mathcal{L}_{\mathrm{PDE}}$ vs. $\mathcal{L}_{\mathrm{BC}}$. Hard-constraint methods have been developed to alleviate such issues, which are, however, **limited to Dirichlet** boundary conditions. Our work provides a unified hard-constraint framework for the three most common types of boundary conditions: **Dirichlet, Neumann, and Robin**. The proposed method has achieved promising performance in **real-world geometrically complex problems**.
 
-```bash
-pip install -r requirements.txt
-```
+![](poster.png)
 
-## Directory
+## Directory Tree
 
-The following is a description of the contents of the directory
+This repository is organized as:
 
 ```bash
-code/
-│  .gitignore
-│  README.md              # description of this repository
-│  requirements.txt
+HardConstraint/
+│  README.md
+│  requirements.txt       # required dependencies
 │
 ├─data                    # data used in this paper
 │      case1_pack.txt     # ground truth for "Simulation of a 2D battery pack (Heat Equation)"
@@ -31,7 +28,7 @@ code/
     │  case1.py           # scripts for each experiment 
     │  ...
     │
-    ├─configs             # hyper-parameters for each experiment 
+    ├─configs             # configurations for each experiment 
     │  │
     │  ├─case1
     │  │      ...
@@ -50,21 +47,51 @@ code/
     └─utils/              # some utils
 ```
 
-## Training & Evaluation
+## Getting Started
 
-To train and evaluate the models in the paper, run this command:
+1. Install necessary dependencies:
 
-```bash
-DDEBACKEND=pytorch python -m src.caseX 
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-where X = 1, 2, 3, 4, corresponding to *Simulation of a 2D battery pack (Heat Equation)*, *Simulation of an Airfoil (Navier-Stokes Equations)*, *High-dimensional Heat Equation*, and *Ablation Study: Extra fields*.
+2. To train and evaluate the models in the paper, run this command:
 
-If you want to test different models (i.e., the proposed model and baselines), please modify the global variables in `src/caseX.py`.
+   ```bash
+   # In the root directory of this repository
+   DDEBACKEND=pytorch python -m src.caseX
+   ```
+   
+    where X = 1, 2, 3, 4, corresponding to *Simulation of a 2D battery pack (Heat Equation)*, *Simulation of an Airfoil (Navier-Stokes Equations)*, *High-dimensional Heat Equation*, and *Ablation Study: Extra fields*.
 
-To run the experiment of *Ablation Study: Hyper-parameters of Hardness*, you can change the value of $\beta_s$ in `src/HC/l_functions.py` (line 31, default: $\beta_s=5$) and $\beta_t$ in `src/configs/case1/hc.py` (line 127, default: $\beta_t=10$, case 1) or `src/configs/case3/hc.py` (line 56, default: $\beta_t=10$, case 3).
+If you want to run different models (i.e., the proposed model and baselines), please modify the global variables in `src/caseX.py`.
 
-## Possible Problems & Solutions
+To run the experiment of *Ablation Study: Hyper-parameters of Hardness*, you can change the value of:
+
+- $\beta_s$ in `src/HC/l_functions.py` (line 31, default: $\beta_s=5$)
+- $\beta_t$ in `src/configs/case1/hc.py` (line 127, default: $\beta_t=10$, case 1) or `src/configs/case3/hc.py` (line 56, default: $\beta_t=10$, case 3)
+
+## Experimental Results
+
+**Settings**:
+
+- Evaluation Metrics: Mean Absolute Error (**MAE**), Mean Absolute Percentage Error (**MAPE**), and Weighted Mean Absolute Percentage Error (**WMAPE**)
+- Baselines:
+  - **PINN**: vanilla PINN
+  - **PINN-LA** **& PINN-LA-2**: PINN with learning rate annealing 
+  - **xPINN** **& FBPINN**: PINN with domain decomposition for geometrically complex PDEs
+  - **PFNN** **& PFNN-2**: hard-constraint methods based on the variational formulation of PDEs
+  - **HC**: our proposed method
+
+**Problems**: a 2D battery pack, an airfoil, a high-dimensional heat equation
+
+![](problems.png)
+
+**Results**:
+
+<img src="results.png" style="zoom: 25%;" />
+
+## Problem & Solution
 
 1. Scalar Type Error
 
@@ -78,7 +105,7 @@ To run the experiment of *Ablation Study: Hyper-parameters of Hardness*, you can
    RuntimeError: expected scalar type Float but found Double
    ```
 
-   Please modify `ENV_PATH/lib/python3.9/site-packages/deepxde/model.py (line 228)`:
+   Please modify `ENV_PATH/lib/python3.9/site-packages/deepxde/model.py (line 228)` from:
 
    ```python
    self.net.train(mode=training)
@@ -96,8 +123,16 @@ To run the experiment of *Ablation Study: Hyper-parameters of Hardness*, you can
    outputs_ = self.net(self.net.inputs.float()) # add this
    ```
 
+## Citation
 
-## Contributing
+If you find this work is helpful for your research, please **cite us** with the following BibTeX entry:
 
-Authors of  *A Unified Hard-Constraint Framework for Solving Geometrically Complex PDEs*
+```
+@article{liu2022unified,
+  title={A Unified Hard-Constraint Framework for Solving Geometrically Complex PDEs},
+  author={Liu, Songming and Hao, Zhongkai and Ying, Chengyang and Su, Hang and Zhu, Jun and Cheng, Ze},
+  journal={arXiv preprint arXiv:2210.03526},
+  year={2022}
+}
+```
 

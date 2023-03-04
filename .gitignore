@@ -130,7 +130,3 @@ dmypy.json
 
 # vscode
 .vscode/
-
-# some folders
-model/
-outs/
